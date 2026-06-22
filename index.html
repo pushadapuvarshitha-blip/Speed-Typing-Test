@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>simple typing test</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <style>
+            body{
+                font-family:Arial,sans-serif;
+                background-color:#f4f4f4;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                min-height:100vh;
+                margin:0;
+            }
+            .container{
+                width:90%;
+                max-width:90%;
+                padding:20px;
+                background-color:white;
+                text-align:center;
+                border-radius:8px;
+                box-shadow:0 2px 5px rgba(0,0,0,0.1);
+              }
+              .quote-text{
+                font-weight:bold;
+                font-size:1.1em;
+                color:#007bff;/*blue*/
+                margin:15px;
+                padding:10px;
+                text-align:left;
+                min-height:50px;
+                border:1px dashed #ccc;
+              }
+              textarea{
+                width:100%;
+                margin:10px 0;
+                padding:10px;
+                font-size:1em;
+                border:1px solid #ccc;
+                box-sizing:border-box;
+                resize:none;
+              }
+              button{
+                background-color:#28a745;/*green*/
+                color:white;
+                border:none;
+                padding:10px 20px;
+                font-size:1em;
+                border-radius:4px;
+                cursor:pointer;
+              }
+              #result{
+                margin-top:15px;
+                font-weight:bold;
+                color:#dc3545;/*red for results*/
+              }
+              .success{
+                color:#28a745!important;/*green for success*/
+              }
+              </style>
+              </head>
+              <body>
+                <div class="container">
+                    <h1>speed Typing Test</h1>
+                    <p id="quote" class="quote-text">loading quote</p>
+                    <textarea id="userinput" rows="4" disabled placeholder="click 'start test' to begin----"></textarea>
+                    <button id="mainbutton">start test</button>
+                    <p id="result"></p>
+                 </div>
+                 <script>
+                    const quoteText=document.getElementById('quote');
+                    const userInput=document.getElementById('userinput');
+                    const mainButton=document.getElementById('mainbutton');
+                    const resultDisplay=document.getElementById('result');
+                    let startTime,endTime;
+                    function getRandomQuote(){
+    const quotes = [
+        "Practice makes perfect",
+        "Typing fast is fun",
+        "JavaScript is amazing",
+        "You are doing great buji"
+    ];
+    return quotes[Math.floor(Math.random() * quotes.length)];
+} async function startTest(){
+                        const quote=await getRandomQuote();
+                        quoteText.textContent=quote;
+                        userInput.value='';
+                        userInput.disabled=false;
+                        userInput.focus();
+                        mainButton.textContent='done';
+                        resultDisplay.textContent='';
+                        startTime=new Date().getTime();
+                    }
+                    function endTest(){
+                        endTime=new Date().getTime();
+                        const totalTime=(endTime-startTime)/1000;
+                        const userText=userInput.value;
+                        const quote=quoteText.textContent;
+                        let correctChars=0;
+                        for(let i=0;i<userText.length;i++){
+                            if(userText[i]===quote[i]){
+                                correctChars++;
+                            }
+                        }
+                        const accuracy=(correctChars/quote.length)*100;
+                        const wpm=(userText.split(' ').length/(totalTime/60)).toFixed(2);
+                        resultDisplay.innerHTML=`Time: ${totalTime.toFixed(2)} seconds<br>WPM: ${wpm}<br>Accuracy: ${accuracy.toFixed(2)}%`;
+                        userInput.disabled=true;
+                        mainButton.textContent='start test';
+                    }
+                    mainButton.addEventListener('click',function(){
+                        if(mainButton.textContent==='start test'){
+                            startTest();
+                        }else{
+                            endTest();
+                        }
+                    });
+                    </script>
+                    </body>
+                    </html>
